@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
-{
-    //public or private reference(if a person can see it, its public. if they cant, its private)
-    //the data type(int = whole numbers, floats = decimal numbers, bool = true or false, string = characters of text)
-    //every variable has a name
-    //optional value assigned
+{  
     [SerializeField]
     private float _speed = 3.5f;
     [SerializeField]
@@ -16,24 +12,16 @@ public class Player : MonoBehaviour
     private float _fireRate = 0.15f;
     private float _canFire = -1f;
 
-    public Vector3 laserOffset = new Vector3(0, 0.8f, 0);
+    public Vector3 laserOffset = new Vector3(0, 0.8f, 0);    
+     
     
-       
-    // Start is called before the first frame update
-    void Start()
-    {
-               transform.position = new Vector3(0, 0, 0);
-    }
-
     // Update is called once per frame
     void Update()
     {
-        CalculateMovement();
-                
+        CalculateMovement();              
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
-            _canFire = Time.time + _fireRate;
-            Instantiate(_laserPrefab, transform.position + laserOffset, Quaternion.identity);
+            FireLaser();
         }
     }
 
@@ -70,5 +58,11 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(11.3f, transform.position.y, transform.position.z);
         }
         
+    }
+    
+    void FireLaser()
+    {        
+        _canFire = Time.time + _fireRate;
+        Instantiate(_laserPrefab, transform.position + laserOffset, Quaternion.identity);        
     }
 }
