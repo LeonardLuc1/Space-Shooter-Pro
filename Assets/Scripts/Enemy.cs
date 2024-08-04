@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
-{
-    //move down at 4 meters per second        
-    //if bottom of screen
-    //respawn at top with a new random position
+{   
     
     [SerializeField]
     private float _speed = 4.0f; 
@@ -27,15 +24,21 @@ public class Enemy : MonoBehaviour
         {
             transform.position = new Vector3(randomX, 7.5f, 0);
         }
-
-        
+                
     }
 
     private void OnTriggerEnter(Collider other)
     {
 
         if(other.gameObject.CompareTag("Player"))
-        {
+        {            
+            Player player = other.transform.GetComponent<Player>();
+            
+            if (player != null)
+            {
+                player.Damage();
+            }
+
             Destroy(this.gameObject);
         }
 
