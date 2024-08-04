@@ -13,10 +13,22 @@ public class Player : MonoBehaviour
     private float _canFire = -1f;
     [SerializeField]
     private int _lives = 3;
+    private SpawnManager _spawnManager;
 
-    public Vector3 laserOffset = new Vector3(0, 0.8f, 0);    
-     
-    
+    public Vector3 laserOffset = new Vector3(0, 0.8f, 0);
+
+    private void Start()
+    {
+        transform.position = new Vector3(0, 0, 0);
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        
+        if (_spawnManager == null)
+        {
+            Debug.LogError("The Spawn Manger is NULL.");
+        }
+    }
+
+
     // Update is called once per frame
     void Update()
     {
@@ -71,6 +83,7 @@ public class Player : MonoBehaviour
                 
         if (_lives < 1)
         {
+            _spawnManager.OnPlayerDeath();                       
             Destroy(this.gameObject);
         }
     }
