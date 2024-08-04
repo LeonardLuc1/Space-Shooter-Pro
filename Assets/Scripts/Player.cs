@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     private int _lives = 3;
     private SpawnManager _spawnManager;
 
-    public Vector3 laserOffset = new Vector3(0, 0.8f, 0);
+    public Vector3 laserOffset = new Vector3(0, 1.05f, 0);
 
     private void Start()
     {
