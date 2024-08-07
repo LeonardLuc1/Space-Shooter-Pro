@@ -18,10 +18,10 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
-        float randomX = Random.Range(-8, 8);
+        transform.Translate(Vector3.down * _speed * Time.deltaTime);        
         if (transform.position.y < -5.5f)
         {
+            float randomX = Random.Range(-8, 8);
             transform.position = new Vector3(randomX, 7.5f, 0);
         }
                 

@@ -8,7 +8,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemyprefab;
     [SerializeField]
-    private GameObject _EnemyContainer;
+    private GameObject _enemyContainer;
         
     private bool _stopSpawning = false;
     
@@ -30,7 +30,7 @@ public class SpawnManager : MonoBehaviour
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f),7, 0);
             GameObject newEnemy = Instantiate(_enemyprefab, posToSpawn, Quaternion.identity);
-            newEnemy.transform.parent = _EnemyContainer.transform;            
+            newEnemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(5.0f);
         }     
  
