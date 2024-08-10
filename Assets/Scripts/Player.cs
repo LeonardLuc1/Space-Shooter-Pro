@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 3.5f;
+    private float _speedMultiplier = 2;
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -20,21 +21,34 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnManager;
-   
-    
+
     private Vector3 _laserOffset = new Vector3(0, 1.05f, 0);
 
-    [SerializeField]
     private bool _isTripleShotActive = false;
+    private bool _isSpeedBoostActive = false;
+    private bool _isShieldsActive = false;
+    
+    [SerializeField]
+    private GameObject _shieldVisualizer;
+
+    [SerializeField]
+    private int _score;
+
+    private UIManager _uiManager;
 
     private void Start()
     {
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
-        
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manger is NULL.");
+        }
+        if (_uiManager == null)
+        {
+            Debug.LogError("The UI Manager is NULL");
         }
     }
 
@@ -42,7 +56,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CalculateMovement();              
+        CalculateMovement();
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
             FireLaser();
@@ -56,11 +70,10 @@ public class Player : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
-                
-        transform.Translate(Vector3.right * horizontalInput * _speed * Time.deltaTime);
-        transform.Translate(Vector3.up * verticalInput * _speed * Time.deltaTime);
+                       
+        transform.Translate(direction * _speed * Time.deltaTime); //Movement            
 
-       
+
         if (transform.position.y >= 0)
         {
             transform.position = new Vector3(transform.position.x, 0, 0);
@@ -68,8 +81,8 @@ public class Player : MonoBehaviour
         else if (transform.position.y <= -3.8f)
         {
             transform.position = new Vector3(transform.position.x, -3.8f, 0);
-        }            
-                      
+        }
+
         if (transform.position.x >= 11.3)
         {
             transform.position = new Vector3(-11.3f, transform.position.y, transform.position.z);
@@ -78,12 +91,12 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(11.3f, transform.position.y, transform.position.z);
         }
-        
+
     }
-    
+
     void FireLaser()
-    {        
-        _canFire = Time.time + _fireRate;        
+    {
+        _canFire = Time.time + _fireRate;
 
         if (_isTripleShotActive == true)
         {
@@ -94,16 +107,23 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
         }
-                
+
     }
 
     public void Damage()
     {
+        if (_isShieldsActive == true)
+        {
+            _isShieldsActive = false;
+            _shieldVisualizer.SetActive(false);
+            return;
+        }
+        
         _lives--;
-                
+
         if (_lives < 1)
         {
-            _spawnManager.OnPlayerDeath();                       
+            _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
     }
@@ -111,7 +131,7 @@ public class Player : MonoBehaviour
     public void TripleShotActive()
     {
         _isTripleShotActive = true;
-        StartCoroutine(TripleShotPowerDownRoutine());        
+        StartCoroutine(TripleShotPowerDownRoutine());
     }
 
     IEnumerator TripleShotPowerDownRoutine()
@@ -119,4 +139,30 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5.0f);
         _isTripleShotActive = false;
     }
+    public void SpeedBoostActive()
+    {
+        _isSpeedBoostActive = true;
+        _speed *= _speedMultiplier;
+        StartCoroutine(SpeedBoostPowerDownRoutine());
+    }
+
+    IEnumerator SpeedBoostPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _isSpeedBoostActive = false;
+        _speed /= _speedMultiplier;
+    }
+
+    public void ShieldsActive()
+    {
+        _isShieldsActive = true;
+        _shieldVisualizer.SetActive(true);
+    }
+
+    public void AddScore(int points)
+    {
+        _score += points;
+        _uiManager.UpdateScore(_score);
+        
+    }    
 }
