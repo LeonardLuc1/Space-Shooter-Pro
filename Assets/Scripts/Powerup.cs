@@ -33,8 +33,7 @@ public class Powerup : MonoBehaviour
         {           
             Player player = other.transform.GetComponent<Player>();
             if (player != null)
-            {
-                               
+            {                               
                 switch(powerupID)
                 {
                     case 0:
@@ -52,8 +51,7 @@ public class Powerup : MonoBehaviour
                   
                 }
                 
-            }
-            
+            }            
             Destroy(this.gameObject);
         }
         

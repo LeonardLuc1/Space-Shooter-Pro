@@ -7,8 +7,10 @@ public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject _enemyprefab;
+    
     [SerializeField]
     private GameObject _enemyContainer;
+    
     [SerializeField]
     private GameObject[] powerups;
         
@@ -18,8 +20,7 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(SpawnEnemyRoutine());
-        StartCoroutine(SpawnPowerupRoutine());       
-        
+        StartCoroutine(SpawnPowerupRoutine());        
     }
 
     // Update is called once per frame
