@@ -17,9 +17,7 @@ public class Astroid : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        //rotate object on the zed axis!
-
+    {       
         transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
     }
 
@@ -32,6 +30,5 @@ public class Astroid : MonoBehaviour
             _spawnManager.StartSpawning();
             Destroy(this.gameObject, 0.25f);
         }
-    }
-       
+    }       
 }

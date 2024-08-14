@@ -13,21 +13,14 @@ public class SpawnManager : MonoBehaviour
     
     [SerializeField]
     private GameObject[] powerups;
-    
-        
+            
     private bool _stopSpawning = false;
           
     public void StartSpawning()
     {
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {       
-        
-    }
+    }   
 
     IEnumerator SpawnEnemyRoutine() 
     {

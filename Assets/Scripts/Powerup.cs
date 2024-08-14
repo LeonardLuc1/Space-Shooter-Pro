@@ -9,13 +9,7 @@ public class Powerup : MonoBehaviour
     
     [SerializeField]
     private int powerupID; //Triple shot = 0, Speed = 1, Shield = 2
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+  
     // Update is called once per frame
     void Update()
     {

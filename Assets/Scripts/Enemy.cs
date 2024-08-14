@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
-{   
-    
+{       
     [SerializeField]
     private float _speed = 4.0f;
 
@@ -27,7 +26,6 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("Animatior is NULL");
         }
-
     }
 
     // Update is called once per frame
@@ -38,13 +36,11 @@ public class Enemy : MonoBehaviour
         {
             float randomX = Random.Range(-8, 8);
             transform.position = new Vector3(randomX, 7.5f, 0);
-        }
-                
+        }                
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-
         if(other.gameObject.CompareTag("Player"))
         {            
             Player player = other.transform.GetComponent<Player>();
@@ -70,8 +66,6 @@ public class Enemy : MonoBehaviour
             _anim.SetTrigger("OnEnemyDeath");
             _speed = 0;
             Destroy(this.gameObject, 2.5f);
-        }       
-               
+        }                
     }
-
 }

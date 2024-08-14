@@ -46,8 +46,7 @@ public class UIManager : MonoBehaviour
         if(currentLives == 0)
         {
             GameOverSequnce();
-        }
-        
+        }        
     }
 
     void GameOverSequnce()
@@ -68,5 +67,4 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
     }
-
 }

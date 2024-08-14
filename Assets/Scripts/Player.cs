@@ -177,7 +177,6 @@ public class Player : MonoBehaviour
     public void AddScore(int points)
     {
         _score += points;
-        _uiManager.UpdateScore(_score);
-        
+        _uiManager.UpdateScore(_score);        
     }    
 }
