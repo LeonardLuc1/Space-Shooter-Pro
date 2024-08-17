@@ -89,7 +89,7 @@ public class Player : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
                        
-        transform.Translate(direction * _speed * Time.deltaTime); //Movement            
+        transform.Translate(direction * _speed * Time.deltaTime); //Movement
 
 
         if (transform.position.y >= 0)
@@ -193,6 +193,6 @@ public class Player : MonoBehaviour
     public void AddScore(int points)
     {
         _score += points;
-        _uiManager.UpdateScore(_score);        
-    }    
+        _uiManager.UpdateScore(_score);
+    }
 }

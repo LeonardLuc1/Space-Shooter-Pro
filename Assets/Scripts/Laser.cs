@@ -5,7 +5,7 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
     [SerializeField]
-    private float _laserspeed = 8.0f;
+    private float _laserSpeed = 8.0f;
 
     private bool _isEnemyLaser = false;
    
@@ -25,7 +25,7 @@ public class Laser : MonoBehaviour
 
     void MoveUp()
     {
-        transform.Translate(Vector3.up * _laserspeed * Time.deltaTime);
+        transform.Translate(Vector3.up * _laserSpeed * Time.deltaTime);
 
         if (transform.position.y > 8)
         {
@@ -42,7 +42,7 @@ public class Laser : MonoBehaviour
 
     void MoveDown()
     {
-        transform.Translate(Vector3.down * _laserspeed * Time.deltaTime);
+        transform.Translate(Vector3.down * _laserSpeed * Time.deltaTime);
 
         if (transform.position.y > 8)
         {

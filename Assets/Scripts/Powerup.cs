@@ -8,7 +8,7 @@ public class Powerup : MonoBehaviour
     private float _speed = 3.0f;
     
     [SerializeField]
-    private int powerupID; //Triple shot = 0, Speed = 1, Shield = 2
+    private int powerUpID; //Triple shot = 0, Speed = 1, Shield = 2
     
     [SerializeField]
     private AudioClip _clip;
@@ -25,17 +25,17 @@ public class Powerup : MonoBehaviour
         }
     }  
 
-    private void OnTriggerEnter2D(Collider2D other)        
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
-        {           
+        {
             Player player = other.transform.GetComponent<Player>();
 
             AudioSource.PlayClipAtPoint(_clip, transform.position);
 
             if (player != null)
-            {                               
-                switch(powerupID)
+            {
+                switch(powerUpID)
                 {
                     case 0:
                         player.TripleShotActive();
@@ -52,9 +52,9 @@ public class Powerup : MonoBehaviour
                   
                 }
                 
-            }            
+            }
             Destroy(this.gameObject);
         }
-        
+     
     }
 }

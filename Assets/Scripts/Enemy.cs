@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour
             float randomX = Random.Range(-8, 8);
             transform.position = new Vector3(randomX, 7.5f, 0);
         }
-    }    
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -74,11 +74,8 @@ public class Enemy : MonoBehaviour
             {
                 player.Damage();
             }
-            
-           _anim.SetTrigger("OnEnemyDeath");
-            _speed = 0;
-            _audioSource.Play();
-            Destroy(this.gameObject, 2.5f);            
+
+            HandleEnemyDeath();
         }
 
         if(other.gameObject.CompareTag("Laser"))
@@ -87,13 +84,18 @@ public class Enemy : MonoBehaviour
             if (_player != null)
             {
                 _player.AddScore(10);
-            } 
-                       
-            _anim.SetTrigger("OnEnemyDeath");
-            _speed = 0;
-            _audioSource.Play();
-            Destroy(GetComponent<Collider2D>());
-            Destroy(this.gameObject, 2.5f);            
-        }                
+            }
+
+            HandleEnemyDeath();
+        }
+    }
+
+    private void HandleEnemyDeath()
+    {
+        _anim.SetTrigger("OnEnemyDeath");
+        _speed = 0;
+        _audioSource.Play();
+        Destroy(GetComponent<Collider2D>());
+        Destroy(this.gameObject, 2.5f);
     }
 }

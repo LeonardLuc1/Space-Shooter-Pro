@@ -12,7 +12,7 @@ public class SpawnManager : MonoBehaviour
     private GameObject _enemyContainer;
     
     [SerializeField]
-    private GameObject[] powerups;
+    private GameObject[] powerUps;
             
     private bool _stopSpawning = false;
           
@@ -20,7 +20,7 @@ public class SpawnManager : MonoBehaviour
     {
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
-    }   
+    }
 
     IEnumerator SpawnEnemyRoutine() 
     {
@@ -42,7 +42,7 @@ public class SpawnManager : MonoBehaviour
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f),7, 0);
             int randomPowerup = Random.Range(0, 3);
-            Instantiate(powerups[randomPowerup], posToSpawn, Quaternion.identity);
+            Instantiate(powerUps[randomPowerup], posToSpawn, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(3, 8));
         }
     }                  
