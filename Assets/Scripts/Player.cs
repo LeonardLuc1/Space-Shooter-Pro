@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     private Vector3 _laserOffset = new Vector3(0, 1.05f, 0);
 
     private bool _isTripleShotActive = false;
+    [SerializeField]
     private bool _isSpeedBoostActive = false;
     private bool _isShieldsActive = false;
     
