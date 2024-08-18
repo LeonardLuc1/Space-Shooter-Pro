@@ -8,8 +8,13 @@ public class Powerup : MonoBehaviour
     private float _speed = 3.0f;
 
     [SerializeField]
+<<<<<<< HEAD
     private int powerupID; //Triple shot = 0, Speed = 1, Shield = 2
 
+=======
+    private int powerUpID; //Triple shot = 0, Speed = 1, Shield = 2
+    
+>>>>>>> 5586b548f6f67dfa3f7cadd069135ad580d9e8aa
     [SerializeField]
     private AudioClip _clip;
 
@@ -34,7 +39,11 @@ public class Powerup : MonoBehaviour
 
             if (player != null)
             {
+<<<<<<< HEAD
                 switch (powerupID)
+=======
+                switch(powerUpID)
+>>>>>>> 5586b548f6f67dfa3f7cadd069135ad580d9e8aa
                 {
                     case 0:
                         player.TripleShotActive();
@@ -50,10 +59,18 @@ public class Powerup : MonoBehaviour
                         break;
 
                 }
+<<<<<<< HEAD
 
             }
 
             Destroy(this.gameObject);
         }
+=======
+                
+            }
+            Destroy(this.gameObject);
+        }
+     
+>>>>>>> 5586b548f6f67dfa3f7cadd069135ad580d9e8aa
     }
 }
