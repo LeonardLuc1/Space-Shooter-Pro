@@ -9,6 +9,10 @@ public class Player : MonoBehaviour
     private float _speedMultiplier = 2;
 
     [SerializeField]
+    private float _boostFactor = 1.5f;
+    private float _boostMultiplier = 1f;
+
+    [SerializeField]
     private GameObject _laserPrefab;
 
     [SerializeField]
@@ -24,8 +28,7 @@ public class Player : MonoBehaviour
 
     private Vector3 _laserOffset = new Vector3(0, 1.05f, 0);
 
-    private bool _isTripleShotActive = false;
-    [SerializeField]
+    private bool _isTripleShotActive = false;    
     private bool _isSpeedBoostActive = false;
     private bool _isShieldsActive = false;
     
@@ -34,7 +37,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _leftEngine, _rightEngine;
    
-
     [SerializeField]
     private int _score;
 
@@ -44,6 +46,11 @@ public class Player : MonoBehaviour
     private AudioClip _laserSoundClip;
     [SerializeField]
     private AudioSource _audioSource;
+
+    [SerializeField]
+    private int _shieldStrength = 3;
+    [SerializeField]
+    private SpriteRenderer _shieldRenderer;
 
     private void Start()
     {
@@ -84,12 +91,17 @@ public class Player : MonoBehaviour
 
     void CalculateMovement()
     {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            _boostMultiplier = _boostFactor;
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+            _boostMultiplier = 1f;
+
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
                        
-        transform.Translate(direction * _speed * Time.deltaTime); //Movement            
+        transform.Translate(direction * _speed * _boostMultiplier * Time.deltaTime); //Movement            
 
 
         if (transform.position.y >= 0)
@@ -133,11 +145,25 @@ public class Player : MonoBehaviour
     {
         if (_isShieldsActive == true)
         {
-            _isShieldsActive = false;
-            _shieldVisualizer.SetActive(false);
-            return;
+            _shieldStrength--;
+            if (_shieldStrength == 2)
+            {
+                StartCoroutine(ShieldHitVisual());
+                return;
+            }
+            else if (_shieldStrength == 1)
+            {
+                StartCoroutine(ShieldHitVisual());
+                return;
+            }
+            else if (_shieldStrength < 1)
+            {
+                _isShieldsActive = false;
+                _shieldVisualizer.SetActive(false);
+                return;
+            }            
         }
-        
+ 
         _lives--;
 
         if (_lives == 2)
@@ -149,7 +175,7 @@ public class Player : MonoBehaviour
         {
             _rightEngine.SetActive(true);
         }
-               
+ 
         _uiManager.UpdateLives(_lives);
 
         if (_lives < 1)
@@ -157,6 +183,13 @@ public class Player : MonoBehaviour
             _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
+    }
+
+    IEnumerator ShieldHitVisual()
+    {
+        _shieldRenderer.color = Color.red;
+        yield return new WaitForSeconds(.5f);
+        _shieldRenderer.color = Color.white;
     }
 
     public void TripleShotActive()
@@ -187,6 +220,7 @@ public class Player : MonoBehaviour
     public void ShieldsActive()
     {
         _isShieldsActive = true;
+        _shieldStrength = 3;
         _shieldVisualizer.SetActive(true);
     }
 
@@ -194,5 +228,5 @@ public class Player : MonoBehaviour
     {
         _score += points;
         _uiManager.UpdateScore(_score);        
-    }    
+    }
 }

@@ -6,8 +6,10 @@ public class Enemy : MonoBehaviour
 {       
     [SerializeField]
     private float _speed = 4.0f;
+
     [SerializeField]
     private GameObject _laserPrefab;
+
     private Player _player;
     private Animator _anim;
 
@@ -15,6 +17,8 @@ public class Enemy : MonoBehaviour
 
     private float _fireRate = 3.0f;
     private float _canFire = -1;
+
+    public bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +42,9 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (isDead) return;
+
         CalculateMovement();
 
         if(Time.time > _canFire)
@@ -56,17 +63,21 @@ public class Enemy : MonoBehaviour
 
     void CalculateMovement()
     {
+        if (isDead) return;
+
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
         if (transform.position.y < -5.5f)
         {
             float randomX = Random.Range(-8, 8);
             transform.position = new Vector3(randomX, 7.5f, 0);
         }
-    }    
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.CompareTag("Player"))
+        if (isDead) return;
+
+        if (other.gameObject.CompareTag("Player"))
         { 
             Player player = other.transform.GetComponent<Player>();
             
@@ -74,11 +85,8 @@ public class Enemy : MonoBehaviour
             {
                 player.Damage();
             }
-            
-           _anim.SetTrigger("OnEnemyDeath");
-            _speed = 0;
-            _audioSource.Play();
-            Destroy(this.gameObject, 2.5f);            
+
+            HandleEnemyDeath();
         }
 
         if(other.gameObject.CompareTag("Laser"))
@@ -87,13 +95,21 @@ public class Enemy : MonoBehaviour
             if (_player != null)
             {
                 _player.AddScore(10);
-            } 
-                       
-            _anim.SetTrigger("OnEnemyDeath");
-            _speed = 0;
-            _audioSource.Play();
-            Destroy(GetComponent<Collider2D>());
-            Destroy(this.gameObject, 2.5f);            
-        }                
+            }
+
+            HandleEnemyDeath();
+        }
+    }
+
+    private void HandleEnemyDeath()
+    {
+        if (isDead) return;
+
+        isDead = true;
+        _anim.SetTrigger("OnEnemyDeath");
+        _speed = 0;
+        _audioSource.Play();
+        Destroy(GetComponent<Collider2D>());
+        Destroy(this.gameObject, 2.5f);
     }
 }

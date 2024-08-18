@@ -5,7 +5,7 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
     [SerializeField]
-    private float _laserspeed = 8.0f;
+    private float _laserSpeed = 8.0f;
 
     private bool _isEnemyLaser = false;
    
@@ -25,7 +25,7 @@ public class Laser : MonoBehaviour
 
     void MoveUp()
     {
-        transform.Translate(Vector3.up * _laserspeed * Time.deltaTime);
+        transform.Translate(Vector3.up * _laserSpeed * Time.deltaTime);
 
         if (transform.position.y > 8)
         {
@@ -42,9 +42,9 @@ public class Laser : MonoBehaviour
 
     void MoveDown()
     {
-        transform.Translate(Vector3.down * _laserspeed * Time.deltaTime);
+        transform.Translate(Vector3.down * _laserSpeed * Time.deltaTime);
 
-        if (transform.position.y > 8)
+        if (transform.position.y < -8)
         {
             if (transform.parent != null)
             {
@@ -60,6 +60,19 @@ public class Laser : MonoBehaviour
     public void AssignEnemyLaser()
     {
         _isEnemyLaser = true;
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (GameObject enemy in enemies)
+        {
+            Collider2D enemyCollider = enemy.GetComponent<Collider2D>();
+            Collider2D laserCollider = GetComponent<Collider2D>();
+
+            if (enemyCollider != null && laserCollider != null)
+            {
+                Physics2D.IgnoreCollision(enemyCollider, laserCollider);
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
