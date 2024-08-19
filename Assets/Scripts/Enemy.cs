@@ -103,12 +103,11 @@ public class Enemy : MonoBehaviour
 
     private void HandleEnemyDeath()
     {
-<<<<<<< HEAD
+
         if (isDead) return;
 
         isDead = true;
-=======
->>>>>>> 5586b548f6f67dfa3f7cadd069135ad580d9e8aa
+
         _anim.SetTrigger("OnEnemyDeath");
         _speed = 0;
         _audioSource.Play();

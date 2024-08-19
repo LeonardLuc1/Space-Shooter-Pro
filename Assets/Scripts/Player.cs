@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
 
     private Vector3 _laserOffset = new Vector3(0, 1.05f, 0);
 
-    private bool _isTripleShotActive = false;    
+    private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isShieldsActive = false;
     
@@ -100,12 +100,8 @@ public class Player : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
-                       
-<<<<<<< HEAD
-        transform.Translate(direction * _speed * _boostMultiplier * Time.deltaTime); //Movement            
-=======
-        transform.Translate(direction * _speed * Time.deltaTime); //Movement
->>>>>>> 5586b548f6f67dfa3f7cadd069135ad580d9e8aa
+
+        transform.Translate(direction * _speed * _boostMultiplier * Time.deltaTime); //Movement
 
 
         if (transform.position.y >= 0)
@@ -165,7 +161,7 @@ public class Player : MonoBehaviour
                 _isShieldsActive = false;
                 _shieldVisualizer.SetActive(false);
                 return;
-            }            
+            }
         }
  
         _lives--;
@@ -231,10 +227,6 @@ public class Player : MonoBehaviour
     public void AddScore(int points)
     {
         _score += points;
-<<<<<<< HEAD
-        _uiManager.UpdateScore(_score);        
-=======
         _uiManager.UpdateScore(_score);
->>>>>>> 5586b548f6f67dfa3f7cadd069135ad580d9e8aa
     }
 }

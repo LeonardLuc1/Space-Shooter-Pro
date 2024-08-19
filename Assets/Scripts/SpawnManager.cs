@@ -32,7 +32,6 @@ public class SpawnManager : MonoBehaviour
             newEnemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(5.0f);
         }
-     
     }
 
     IEnumerator SpawnPowerupRoutine()
@@ -41,13 +40,8 @@ public class SpawnManager : MonoBehaviour
         while (_stopSpawning == false)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f),7, 0);
-<<<<<<< HEAD
-            int randomPowerUp = Random.Range(0, 3);
-            Instantiate(powerUps[randomPowerUp], posToSpawn, Quaternion.identity);
-=======
             int randomPowerup = Random.Range(0, 3);
             Instantiate(powerUps[randomPowerup], posToSpawn, Quaternion.identity);
->>>>>>> 5586b548f6f67dfa3f7cadd069135ad580d9e8aa
             yield return new WaitForSeconds(Random.Range(3, 8));
         }
     }
@@ -56,5 +50,4 @@ public class SpawnManager : MonoBehaviour
     {
         _stopSpawning = true;
     }
-
 }
