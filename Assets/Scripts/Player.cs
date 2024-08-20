@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -31,12 +32,12 @@ public class Player : MonoBehaviour
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isShieldsActive = false;
-    
+
     [SerializeField]
     private GameObject _shieldVisualizer;
     [SerializeField]
     private GameObject _leftEngine, _rightEngine;
-   
+
     [SerializeField]
     private int _score;
 
@@ -51,6 +52,11 @@ public class Player : MonoBehaviour
     private int _shieldStrength = 3;
     [SerializeField]
     private SpriteRenderer _shieldRenderer;
+
+    [SerializeField]
+    private int _ammoCount = 15;    
+    [SerializeField]
+    private Text _ammoText;
 
     private void Start()
     {
@@ -75,6 +81,9 @@ public class Player : MonoBehaviour
         {
             _audioSource.clip = _laserSoundClip;
         }
+
+        _ammoCount = 15;
+        _uiManager.UpdateAmmo(_ammoCount);
     }
 
 
@@ -126,6 +135,14 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
+        if (_ammoCount <= 0)
+        {
+            return;
+        }
+
+        _ammoCount--;
+        _uiManager.UpdateAmmo(_ammoCount);
+        
         _canFire = Time.time + _fireRate;
 
         if (_isTripleShotActive == true)
@@ -228,5 +245,16 @@ public class Player : MonoBehaviour
     {
         _score += points;
         _uiManager.UpdateScore(_score);
+    }
+
+    public void UpdateAmmoCount()
+    {
+        _ammoCount = _ammoCount + 15;
+        _uiManager.UpdateAmmo(_ammoCount);
+    }
+
+    public void UpdateAmmo(int playerammo)
+    {
+        _ammoText.text = "Ammo: " + playerammo.ToString();
     }
 }

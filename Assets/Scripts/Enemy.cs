@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     private Animator _anim;
 
     private AudioSource _audioSource;
-
+       
     private float _fireRate = 3.0f;
     private float _canFire = -1;
 
@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour
         if(_anim == null)
         {
             Debug.Log("Animatior is NULL");
-        }
+        }        
     }
 
     // Update is called once per frame
@@ -100,10 +100,8 @@ public class Enemy : MonoBehaviour
             HandleEnemyDeath();
         }
     }
-
     private void HandleEnemyDeath()
     {
-
         if (isDead) return;
 
         isDead = true;

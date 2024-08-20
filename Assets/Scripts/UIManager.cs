@@ -4,27 +4,29 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
-{    
+{
     [SerializeField]
     private Text _scoreText;
-    
+
     [SerializeField]
     private Image _livesImg;
-    
+
     [SerializeField]
     private Sprite[] _liveSprites;
-    
+
     [SerializeField]
     private Text _gameOverText;
     [SerializeField]
     private Text _restartText;
+    [SerializeField]
+    private Text _ammoText;
 
     private GameManager _gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        _scoreText.text = "Score: " +0;
+        _scoreText.text = "Score: " + 0;
         _gameOverText.gameObject.SetActive(false);
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
 
@@ -43,11 +45,24 @@ public class UIManager : MonoBehaviour
     {
         _livesImg.sprite = _liveSprites[currentLives];
 
-        if(currentLives == 0)
+        if (currentLives == 0)
         {
             GameOverSequnce();
         }
     }
+
+    public void UpdateAmmo(int ammoCount)
+    {
+        if (_ammoText != null)
+        {
+            _ammoText.text = "Ammo: " + ammoCount.ToString();
+        }
+        else
+        {
+            Debug.LogError("Ammo Text is NULL");
+        }
+    }
+
 
     void GameOverSequnce()
     {
@@ -59,7 +74,7 @@ public class UIManager : MonoBehaviour
 
     IEnumerator GameOverFlickerRoutine()
     {
-        while(true)
+        while (true)
         {
             _gameOverText.text = "Game Over";
             yield return new WaitForSeconds(0.5f);
