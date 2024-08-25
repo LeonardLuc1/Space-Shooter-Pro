@@ -1763,6 +1763,9 @@ MonoBehaviour:
   - {fileID: 8199603025387310710, guid: 67fce2a276bcb8647902b3a972bfb3a4, type: 3}
   - {fileID: 8431079252800961254, guid: fbd1f0c9e831d9948aaa557bd5565865, type: 3}
   - {fileID: 7182582574007334003, guid: 897193fdf3c8ef94386eb70b877e9de7, type: 3}
+  - {fileID: 1965874286472952154, guid: cd9a86f317c9e17478eb700e14f72a26, type: 3}
+  _powerUpsRarePrefab: {fileID: 4688268837594519019, guid: 55b2e4b2213e94d479357ff19cc9ca8b,
+    type: 3}
 --- !u!4 &1639203781
 Transform:
   m_ObjectHideFlags: 0
@@ -1920,6 +1923,7 @@ MonoBehaviour:
     type: 3}
   _fireRate: 0.15
   _lives: 3
+  _maxLives: 3
   _shieldVisualizer: {fileID: 1719567111}
   _leftEngine: {fileID: 1311095404}
   _rightEngine: {fileID: 1021597616}
@@ -1931,6 +1935,8 @@ MonoBehaviour:
   _ammoCount: 15
   _maxAmmoCount: 40
   _ammoText: {fileID: 0}
+  _numberOfProjectiles: 5
+  _angleStep: 15
 --- !u!212 &1787176282
 SpriteRenderer:
   m_ObjectHideFlags: 0

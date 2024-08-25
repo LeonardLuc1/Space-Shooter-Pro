@@ -13,6 +13,9 @@ public class SpawnManager : MonoBehaviour
     
     [SerializeField]
     private GameObject[] powerUps;
+
+    [SerializeField]
+    private GameObject _powerUpsRarePrefab;
             
     private bool _stopSpawning = false;
           
@@ -20,6 +23,7 @@ public class SpawnManager : MonoBehaviour
     {
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
+        StartCoroutine(RarePowerUpRoutine());
     }
 
     IEnumerator SpawnEnemyRoutine() 
@@ -40,12 +44,24 @@ public class SpawnManager : MonoBehaviour
         while (_stopSpawning == false)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f),7, 0);
-            int randomPowerup = Random.Range(0, 4);
+            int randomPowerup = Random.Range(0, 5);
             Instantiate(powerUps[randomPowerup], posToSpawn, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(3, 8));
         }
     }
 
+    IEnumerator RarePowerUpRoutine()
+    {
+        yield return new WaitForSeconds(30.0f);
+        while (_stopSpawning == false)
+        {
+            Vector3 randomLocation = new Vector3(Random.Range(-8f, 8f), 8f, 0);
+            GameObject rareNewPowerUp = Instantiate(_powerUpsRarePrefab, randomLocation, Quaternion.identity);
+            yield return new WaitForSeconds(Random.Range(20f, 30f));
+        }
+    }
+
+    
     public void OnPlayerDeath()
     {
         _stopSpawning = true;

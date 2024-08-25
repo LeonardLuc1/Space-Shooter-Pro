@@ -25,10 +25,13 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private int _lives = 3;
+    [SerializeField]
+    private int _maxLives = 3;
     private SpawnManager _spawnManager;
 
     private Vector3 _laserOffset = new Vector3(0, 1.05f, 0);
 
+    private bool _isScatterShotActive = false;
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isShieldsActive = false;
@@ -59,6 +62,14 @@ public class Player : MonoBehaviour
     private int _maxAmmoCount = 30;
     [SerializeField]
     private Text _ammoText;
+
+    [SerializeField]
+    private int _numberOfProjectiles = 5;
+    [SerializeField]
+    private float _angleStep = 15f;
+
+
+
 
     private void Start()
     {
@@ -147,9 +158,13 @@ public class Player : MonoBehaviour
         
         _canFire = Time.time + _fireRate;
 
-        if (_isTripleShotActive == true)
+        if (_isTripleShotActive == true && _isScatterShotActive == false)
         {
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+        }
+        else if (_isTripleShotActive == false && _isScatterShotActive == true)
+        {
+            FireScatterShot();
         }
 
         else
@@ -158,6 +173,18 @@ public class Player : MonoBehaviour
         }
 
         _audioSource.Play();
+    }
+
+    public void FireScatterShot()
+    {
+        float startAngle = -_angleStep * (_numberOfProjectiles - 1) / 2f;
+
+        for (int i = 0; i < _numberOfProjectiles; i++)
+        {
+            float currentAngle = startAngle + i * _angleStep;
+            Quaternion rotation = Quaternion.Euler(0, 0, currentAngle);
+            Instantiate(_laserPrefab, transform.position + _laserOffset, rotation);
+        }
     }
 
     public void Damage()
@@ -182,7 +209,7 @@ public class Player : MonoBehaviour
                 return;
             }
         }
- 
+    
         _lives--;
 
         if (_lives == 2)
@@ -265,4 +292,42 @@ public class Player : MonoBehaviour
     {
         _ammoText.text = "Ammo: " + playerammo.ToString();
     }
+
+
+    public void AddHealth()
+    {
+        if (_lives < _maxLives)
+        {
+            _lives++;
+            _uiManager.UpdateLives(_lives);
+        }
+
+        if (_lives == 3)
+        {
+            _leftEngine.SetActive(false);
+        }
+        else if (_lives == 2)
+        {
+            _rightEngine.SetActive(false);
+        }
+    }
+
+    public void ScatterShotActive()
+    {
+        _isScatterShotActive = true;
+        _numberOfProjectiles = 5;
+        _angleStep = 15f;
+        StartCoroutine(ScatterShotPowerDown());
+    }
+
+    IEnumerator ScatterShotPowerDown()
+    {
+        while (_isScatterShotActive == true)
+        {
+            yield return new WaitForSeconds(5.0f);
+            _isScatterShotActive = false;
+        }
+    }
 }
+
+

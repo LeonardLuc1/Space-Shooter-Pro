@@ -9,7 +9,7 @@ public class Powerup : MonoBehaviour
 
     [SerializeField]
 
-    private int powerupID; //Triple shot = 0, Speed = 1, Shield = 2, Ammo = 3
+    private int powerupID; //Triple shot = 0, Speed = 1, Shield = 2, Ammo = 3, Health = 4, ScatterShot = 5
 
     [SerializeField]
     private AudioClip _clip;
@@ -35,7 +35,6 @@ public class Powerup : MonoBehaviour
 
             if (player != null)
             {
-
                 switch (powerupID)
                 {
                     case 0:
@@ -50,10 +49,15 @@ public class Powerup : MonoBehaviour
                     case 3:
                         player.AddAmmo();
                         break;
+                    case 4:
+                        player.AddHealth();
+                        break;
+                    case 5:
+                        player.ScatterShotActive();
+                        break;
                     default:
                         Debug.Log("Default Value");
                         break;
-
                 }
             }
             Destroy(this.gameObject);
