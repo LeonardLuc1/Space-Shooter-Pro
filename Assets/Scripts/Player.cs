@@ -54,7 +54,9 @@ public class Player : MonoBehaviour
     private SpriteRenderer _shieldRenderer;
 
     [SerializeField]
-    private int _ammoCount = 15;    
+    private int _ammoCount = 15;
+    [SerializeField]
+    private int _maxAmmoCount = 30;
     [SerializeField]
     private Text _ammoText;
 
@@ -245,6 +247,12 @@ public class Player : MonoBehaviour
     {
         _score += points;
         _uiManager.UpdateScore(_score);
+    }
+
+    public void AddAmmo()
+    {
+        _ammoCount = _maxAmmoCount;
+        _uiManager.UpdateAmmo(_ammoCount);
     }
 
     public void UpdateAmmoCount()

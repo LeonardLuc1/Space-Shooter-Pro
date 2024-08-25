@@ -1762,6 +1762,7 @@ MonoBehaviour:
   - {fileID: 4503667711144128853, guid: 8f15ffd2623118f43b2bab009b8dd80f, type: 3}
   - {fileID: 8199603025387310710, guid: 67fce2a276bcb8647902b3a972bfb3a4, type: 3}
   - {fileID: 8431079252800961254, guid: fbd1f0c9e831d9948aaa557bd5565865, type: 3}
+  - {fileID: 7182582574007334003, guid: 897193fdf3c8ef94386eb70b877e9de7, type: 3}
 --- !u!4 &1639203781
 Transform:
   m_ObjectHideFlags: 0
@@ -1928,6 +1929,7 @@ MonoBehaviour:
   _shieldStrength: 3
   _shieldRenderer: {fileID: 1719567113}
   _ammoCount: 15
+  _maxAmmoCount: 40
   _ammoText: {fileID: 0}
 --- !u!212 &1787176282
 SpriteRenderer:
