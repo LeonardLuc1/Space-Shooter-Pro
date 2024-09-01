@@ -20,7 +20,10 @@ public class UIManager : MonoBehaviour
     private Text _restartText;
     [SerializeField]
     private Text _ammoText;
-
+    [SerializeField]
+    private Slider _myThruster;
+    
+    
     private GameManager _gameManager;
 
     // Start is called before the first frame update
@@ -29,7 +32,7 @@ public class UIManager : MonoBehaviour
         _scoreText.text = "Score: " + 0;
         _gameOverText.gameObject.SetActive(false);
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
-
+                       
         if (_gameManager == null)
         {
             Debug.LogError("GameManager is NULL");
@@ -62,7 +65,11 @@ public class UIManager : MonoBehaviour
             Debug.LogError("Ammo Text is NULL");
         }
     }
-
+    
+    public void UpdateThrusters(float myThrusterFuel)
+    {        
+        _myThruster.value = myThrusterFuel;
+    }
 
     void GameOverSequnce()
     {
@@ -81,5 +88,9 @@ public class UIManager : MonoBehaviour
             _gameOverText.text = "";
             yield return new WaitForSeconds(0.5f);
         }
+    }
+    public void UpdateSlider(float fuel)
+    {
+        _myThruster.value = fuel;
     }
 }

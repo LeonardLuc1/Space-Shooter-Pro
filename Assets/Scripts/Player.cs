@@ -31,6 +31,15 @@ public class Player : MonoBehaviour
 
     private Vector3 _laserOffset = new Vector3(0, 1.05f, 0);
 
+    [SerializeField]
+    private float _thrusterFuel = 100.0f;
+    [SerializeField]
+    private float _thrusterFuelUse = 10.0f;
+    [SerializeField]
+    private Slider _myThrusters;
+    [SerializeField]
+    private float _myThrusterSliderMaxValue = 100f;
+
     private bool _isScatterShotActive = false;
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
@@ -68,7 +77,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _angleStep = 15f;
 
+    private Coroutine _thrusterUp;
 
+    public bool isTurboBoostActive = true;   
 
 
     private void Start()
@@ -94,9 +105,10 @@ public class Player : MonoBehaviour
         {
             _audioSource.clip = _laserSoundClip;
         }
-
+        
         _ammoCount = 15;
         _uiManager.UpdateAmmo(_ammoCount);
+        _uiManager.UpdateSlider(_thrusterFuel);
     }
 
 
@@ -114,17 +126,41 @@ public class Player : MonoBehaviour
     void CalculateMovement()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
             _boostMultiplier = _boostFactor;
+            isTurboBoostActive = true;
+        }
+            
         if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
             _boostMultiplier = 1f;
+            isTurboBoostActive = false;
+        }
 
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
-        transform.Translate(direction * _speed * _boostMultiplier * Time.deltaTime); //Movement
+        if (isTurboBoostActive == true && _thrusterFuel > 0.01f)
+        {
+            if (_thrusterUp == null)
+            {
+                _thrusterUp = StartCoroutine(ThrustersDown());
+            }                                  
+        }
+        else
+        {
+            if (_thrusterUp != null)
+            {
+                StopCoroutine(_thrusterUp);
+                _thrusterUp = null;
+            }      
+            
+            StartCoroutine(ThrustersUp());
+        }
 
+        transform.Translate(direction * _speed * _boostMultiplier * Time.deltaTime);
 
         if (transform.position.y >= 0)
         {
@@ -229,7 +265,7 @@ public class Player : MonoBehaviour
             _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
-    }
+    }   
 
     IEnumerator ShieldHitVisual()
     {
@@ -326,6 +362,38 @@ public class Player : MonoBehaviour
         {
             yield return new WaitForSeconds(5.0f);
             _isScatterShotActive = false;
+        }
+    }
+
+    IEnumerator ThrustersDown()
+    {
+        while (_thrusterFuel > 0)
+        {
+            _thrusterFuel -= _thrusterFuelUse * Time.deltaTime;            
+            _uiManager.UpdateSlider(_thrusterFuel);
+            yield return null;
+
+            if (_thrusterFuel <= 0.0f)
+            {
+                _thrusterFuel = 0.0f;
+                _uiManager.UpdateSlider(_thrusterFuel);
+                isTurboBoostActive = false;
+            }
+        }
+    }
+    IEnumerator ThrustersUp()
+    {
+        while (_thrusterFuel < _myThrusterSliderMaxValue && isTurboBoostActive == false)
+        {
+            _thrusterFuel += 0.15f * Time.deltaTime;
+            _uiManager.UpdateSlider(_thrusterFuel);
+            yield return null;
+
+            if (_thrusterFuel > _myThrusterSliderMaxValue)
+            {
+                _thrusterFuel = _myThrusterSliderMaxValue;
+                _uiManager.UpdateSlider(_thrusterFuel);
+            }
         }
     }
 }
