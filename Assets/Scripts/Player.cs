@@ -79,12 +79,15 @@ public class Player : MonoBehaviour
 
     private Coroutine _thrusterUp;
 
-    public bool isTurboBoostActive = true;   
+    public bool isTurboBoostActive = true;
+
+    private CameraShake _playerShake;
 
 
     private void Start()
     {
         transform.position = new Vector3(0, 0, 0);
+        _playerShake = GameObject.Find("Camera").GetComponent<CameraShake>();
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
@@ -110,7 +113,6 @@ public class Player : MonoBehaviour
         _uiManager.UpdateAmmo(_ammoCount);
         _uiManager.UpdateSlider(_thrusterFuel);
     }
-
 
     // Update is called once per frame
     void Update()
@@ -246,15 +248,17 @@ public class Player : MonoBehaviour
             }
         }
     
-        _lives--;
+        _lives--;       
 
         if (_lives == 2)
-        {           
+        {
+            _playerShake.ActivateShake();
             _leftEngine.SetActive(true);
         }
 
         else if (_lives == 1)
         {
+            _playerShake.ActivateShake();
             _rightEngine.SetActive(true);
         }
  
@@ -262,6 +266,7 @@ public class Player : MonoBehaviour
 
         if (_lives < 1)
         {
+            _playerShake.ActivateShake();
             _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
